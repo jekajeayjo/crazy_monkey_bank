@@ -1,0 +1,51 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Accounts  of Monkey",
+    "description": "Get Account list of users",
+    "version": "1.0.0",
+    "contact": {
+      "email": "sochok2024@gmail.com"
+    }
+  },
+  "host": "127.0.0.1",
+  "schemes": [
+    "http"
+  ],
+  "basePath": "v1",
+  "tags": {
+    "name": "account",
+    "description": "Everithing about Account of users"
+  },
+  "paths": {
+    "/list":{
+      "get": {
+        "summary": "Get account list of users",
+        "description": "",
+        "operationId": "list",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "Integer"
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/id"
+            }
+          },
+          "400": {
+            "description": "Invalid Id suppleid"
+          },
+          "500": {
+            "description": "User not Found"
+          }
+        }
+      }
+    }
+  }
+}
