@@ -62,7 +62,7 @@ public class AccountsServiceImpl implements AccountService {
                    , new BeanPropertyRowMapper(AccountDto.class)
                    , new Object[]{id}));
        }
- 
+
         return answerDto;
     }
 }
