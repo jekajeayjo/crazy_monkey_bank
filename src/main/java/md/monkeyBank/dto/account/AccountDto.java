@@ -1,4 +1,4 @@
-package md.monkeyBank.dto;
+package md.monkeyBank.dto.account;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

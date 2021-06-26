@@ -1,9 +1,12 @@
 package md.monkeyBank.config;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -17,23 +20,19 @@ public class MsSqlConfig {
     @Value("${spring.datasource.password}")
     private String password;
 
-    @Bean(name = "msqlDataSource")
+    @Bean(name = "msSqlDataSource")
     public SQLServerDataSource getConnection() throws SQLException {
         SQLServerDataSource ods = new SQLServerDataSource();
         ods.setURL(url);
         ods.setUser(username);
         ods.setPassword(password);
-
-//        ods.setConnectionCachingEnabled(true);
-//        DriverManagerDataSource ods=new DriverManagerDataSource();
-//        ods.setUrl(url);
-//        ods.setUsername(username);
-//        ods.setPassword(password);
-//        ods.setDriverClassName(oracle.jdbc.driver.OracleDriver.class.getName());
-//        Class.forName(driver);
-//        Connection conn = DriverManager.getConnection(url, username, password);
         return ods;
 
+    }
+
+    @Bean(name = "msSqlJdbcTemplate")
+    public JdbcTemplate getJdbcTemplate(@Qualifier("msSqlDataSource") SQLServerDataSource sqlServerDataSource) {
+        return new JdbcTemplate(sqlServerDataSource);
     }
 
 }
