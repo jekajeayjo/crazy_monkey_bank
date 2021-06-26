@@ -7,6 +7,7 @@ import md.monkeyBank.dto.account.AccountDto;
 import md.monkeyBank.entity.UserEntity;
 import md.monkeyBank.repository.UserRepository;
 import md.monkeyBank.service.AccountService;
+import md.monkeyBank.service.CostumMessage;
 import md.monkeyBank.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,21 +48,17 @@ public class AccountsServiceImpl implements AccountService {
     }
 
     public AccountAnswerDto getAccountList(Integer id) throws NotFoundException {
-        AccountAnswerDto answerDto=new AccountAnswerDto();
+        AccountAnswerDto answerDto = new AccountAnswerDto();
 
-       if( !userService.finById(id).isPresent())
-       {
-           answerDto.setStatus("ERROR");
-           answerDto.setMessage("User is not exist");
-       }
-       else
-       {
-           answerDto.setStatus("OK");
-
-         answerDto.setRows( jdbcTemplate.query("execute getAccoutById ?"
-                   , new BeanPropertyRowMapper(AccountDto.class)
-                   , new Object[]{id}));
-       }
+        if (!userService.finById(id).isPresent()) {
+            answerDto.setStatus("ERROR");
+            answerDto.setMessage(CostumMessage.USER_NOT_FOUND.toString());
+        } else {
+            answerDto.setStatus("OK");
+            answerDto.setRows(jdbcTemplate.query("execute getAccoutById ?"
+                    , new BeanPropertyRowMapper(AccountDto.class)
+                    , new Object[]{id}));
+        }
 
         return answerDto;
     }
