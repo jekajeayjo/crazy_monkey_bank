@@ -2,8 +2,6 @@
 ### Стэк проекта
 #### Backend
 - Spring Boot
-- Spring Cache
-- Spring Secutiry
 - JPA
 ### Инструменты
 - Docker
