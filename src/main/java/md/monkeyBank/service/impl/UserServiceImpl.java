@@ -10,12 +10,13 @@ import java.util.Optional;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
 
     @Override
     public Optional<UserEntity> finById(Integer id) {

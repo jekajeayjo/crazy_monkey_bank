@@ -21,11 +21,10 @@ public class AccountController {
     public static final String URL_PREFIX = "/account";
     public static final String LIST_BY_ID = "/list/{id}";
 
-    AccountService accountService;
+    private final  AccountService accountService;
 
     @Autowired
-    @Qualifier("accountServiceMsSql")
-    public void setAccountService(AccountService accountService) {
+    public AccountController(@Qualifier("accountServiceMsSql")AccountService accountService) {
         this.accountService = accountService;
     }
 
