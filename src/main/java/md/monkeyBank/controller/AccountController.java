@@ -3,6 +3,7 @@ package md.monkeyBank.controller;
 import javassist.NotFoundException;
 import md.monkeyBank.dto.account.AccountAnswerDto;
 import md.monkeyBank.service.AccountService;
+import md.monkeyBank.service.CostumMessage;
 import md.monkeyBank.service.impl.AccountsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,6 +31,17 @@ public class AccountController {
 
     @RequestMapping(method = RequestMethod.GET, value = LIST_BY_ID)
     public AccountAnswerDto getAccountById(@PathVariable Integer id) throws NotFoundException {
-        return accountService.getAccountList(id);
+        AccountAnswerDto answerDto=null;
+        try {
+            answerDto=accountService.getAccountList(id);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            answerDto=new AccountAnswerDto();
+            answerDto.setStatus("ERROR");
+            answerDto.setMessage(CostumMessage.GLOBAL_ERROR.toString());
+        }
+        return answerDto;
     }
 }

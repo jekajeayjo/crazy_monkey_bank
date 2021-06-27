@@ -1,7 +1,8 @@
 package md.monkeyBank.service;
 
 public enum CostumMessage {
-    USER_NOT_FOUND("User not found")
+    USER_NOT_FOUND("User not found"),
+    GLOBAL_ERROR("A server error has occurred, contact a specialist")
     ;
 
     private final String text;

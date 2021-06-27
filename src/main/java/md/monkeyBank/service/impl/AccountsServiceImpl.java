@@ -5,6 +5,7 @@ import javassist.NotFoundException;
 import md.monkeyBank.dto.account.AccountAnswerDto;
 import md.monkeyBank.dto.account.AccountDto;
 import md.monkeyBank.entity.UserEntity;
+import md.monkeyBank.repository.AccountJdbcRepository;
 import md.monkeyBank.repository.UserRepository;
 import md.monkeyBank.service.AccountService;
 import md.monkeyBank.service.CostumMessage;
@@ -26,40 +27,26 @@ import java.util.Optional;
 @Service("accountServiceMsSql")
 public class AccountsServiceImpl implements AccountService {
 
-    JdbcTemplate jdbcTemplate;
-    UserRepository userRepository;
-    UserService userService;
 
-    @Autowired
-    @Qualifier("msSqlJdbcTemplate")
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    private final UserService userService;
+    private final AccountJdbcRepository accountJdbcRepository;
 
-    @Autowired
-    @Qualifier("userService")
-    public void setUserService(UserService userService) {
+
+    public AccountsServiceImpl( @Qualifier("userService")UserService userService
+            , @Qualifier("accountJdbcRep") AccountJdbcRepository accountJdbcRepository) {
         this.userService = userService;
-    }
-
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
+        this.accountJdbcRepository = accountJdbcRepository;
     }
 
     public AccountAnswerDto getAccountList(Integer id) throws NotFoundException {
         AccountAnswerDto answerDto = new AccountAnswerDto();
-
         if (!userService.finById(id).isPresent()) {
             answerDto.setStatus("ERROR");
             answerDto.setMessage(CostumMessage.USER_NOT_FOUND.toString());
         } else {
             answerDto.setStatus("OK");
-            answerDto.setRows(jdbcTemplate.query("execute getAccoutById ?"
-                    , new BeanPropertyRowMapper(AccountDto.class)
-                    , new Object[]{id}));
+            answerDto.setRows(accountJdbcRepository.getAccountById(id));
         }
-
         return answerDto;
     }
 }
